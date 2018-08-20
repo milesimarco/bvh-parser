@@ -8,10 +8,12 @@ f =  open(r'C:\Users\miles\eclipse-workspace\prova_bvh\src\tests\bvh_carrozzina.
 #f =  open(r'C:\Users\miles\eclipse-workspace\Prova_2\src\tests\test_freebvh.bvh')
 mocap = Bvh(f.read())
 print( mocap.get_joints_names() )
+
+colors = mocap.get_joints_names();
+print( len(colors) );
+
 print( "#########" )
 
-colors = mocap.get_joints_names();   
-    
 i = 0
 while i < len(colors):
     print("\n" + colors[i])
