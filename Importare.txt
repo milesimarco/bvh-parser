@@ -1,0 +1,1 @@
+dopo aver importato premere rendere src come source nelle opzioni pydev del tasto destro
