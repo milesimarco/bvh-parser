@@ -1,4 +1,4 @@
-
+from bvh import Bvh, BvhNode
 import numpy as np
 
 debug = 1
@@ -54,3 +54,4 @@ def eulero_angles( instant, joint_channels, frames_joint_channels ): # In entrat
    
 def degree_to_rad( value ):
     return np.deg2rad( value )
+    

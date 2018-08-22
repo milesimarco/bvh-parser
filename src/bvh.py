@@ -122,7 +122,8 @@ class Bvh:
             found = self.search('JOINT', name)
         if found:
             return found[0]
-        raise LookupError('joint not found')
+        #raise LookupError('joint not found')
+        return None
 
     def joint_offset(self, name):
         joint = self.get_joint(name)
