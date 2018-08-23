@@ -90,6 +90,7 @@ class Bvh:
                     found_nodes.append(node)
             for child in node:
                 check_children(child)
+
         check_children(self.root)
         return found_nodes
 
@@ -100,6 +101,7 @@ class Bvh:
             joints.append(joint)
             for child in joint.filter('JOINT'):
                 iterate_joints(child)
+
         iterate_joints(next(self.root.filter('ROOT')))
         return joints
 
@@ -110,6 +112,7 @@ class Bvh:
             joints.append(joint.value[1])
             for child in joint.filter('JOINT'):
                 iterate_joints(child)
+
         iterate_joints(next(self.root.filter('ROOT')))
         return joints
 
@@ -122,7 +125,7 @@ class Bvh:
             found = self.search('JOINT', name)
         if found:
             return found[0]
-        #raise LookupError('joint not found')
+        # raise LookupError('joint not found')
         return None
 
     def joint_offset(self, name):

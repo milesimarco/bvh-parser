@@ -42,6 +42,7 @@ class TestBvh(unittest.TestCase):
             bones.append(str(joint))
             for child in joint.filter('JOINT'):
                 iterate_joints(child)
+
         iterate_joints(next(mocap.root.filter('ROOT')))
         self.assertEqual(bones[0], 'ROOT mixamorig:Hips')
         self.assertEqual(bones[17], 'JOINT mixamorig:LeftHandThumb2')
