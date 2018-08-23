@@ -1,5 +1,6 @@
 from bvh import *
 from bvh_extend import *
+import datetime
 
 
 f = open(r'C:\Users\miles\eclipse-workspace\prova_bvh\src\tests\bvh_carrozzina.bvh')
@@ -36,6 +37,8 @@ print( data.get_rototraslation(joint_name, frame_index, rotation) )
 
 print( "\n ##### Calculating rototraslations, all")
 
+start = datetime.datetime.now()
+
 frame_index = 0
 while frame_index < data.nframes:
     
@@ -51,5 +54,9 @@ while frame_index < data.nframes:
         
     #raise SystemExit
 
-    print( "Instant " + str(frame_index+1) + " ok")
+    #print( "Instant " + str(frame_index+1) + " ok")
     frame_index += 1
+    
+end = datetime.datetime.now()
+elapsed = end - start
+print("Tempo impiegato: " + str(elapsed.seconds) + ":" + str(elapsed.microseconds)) 
