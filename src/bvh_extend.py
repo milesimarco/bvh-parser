@@ -1,7 +1,7 @@
 import bvh
 import numpy as np
 from functions import *
-
+#import math
 
 class BvhCalculator(bvh.Bvh):
 
@@ -23,6 +23,13 @@ class BvhCalculator(bvh.Bvh):
         y_sin = np.sin(y_angle)
         z_cos = np.cos(z_angle)
         z_sin = np.sin(z_angle)
+        
+        #x_cos = math.cos(x_angle)
+        #x_sin = math.sin(x_angle)
+        #y_cos = math.cos(y_angle)
+        #y_sin = math.sin(y_angle)
+        #z_cos = math.cos(z_angle)
+        #z_sin = math.sin(z_angle)
         
         RX = np.matrix(
             [
