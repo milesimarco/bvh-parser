@@ -24,6 +24,8 @@ frame_joint_channels = data.frame_joint_channels(frame_index, joint_name, joint_
 print( "\nRotazione RZ * RY * RX")
 eulero_angles = data.get_eulero_angles( frame_index, joint_channels, frame_joint_channels )
 print( calculate_Rzyx( eulero_angles[0], eulero_angles[1], eulero_angles[2] ) )
+#magic = data.get_magic ( frame_index, joint_channels, frame_joint_channels )
+#print(magic) #alternativa
 print( "\nOffset assoluto")
 print( data.get_offset_assoluto(frame_index, joint_name))
 

@@ -57,6 +57,39 @@ class BvhCalculator(bvh.Bvh):
             )
         return [ RX, RY, RZ]
     
+    def get_magic(self, instant, joint_channels, frame_joint_channels): #calcolo una matrice sola
+                                                                        #invece che 3 per poi moltiplicarle
+                                                                        #magari sveltisce, quando sistemiamo gli offset
+        
+        angles = [
+            frame_joint_channels[ joint_channels.index("Xrotation") ],
+            frame_joint_channels[ joint_channels.index("Yrotation") ],
+            frame_joint_channels[ joint_channels.index("Zrotation") ]
+        ]
+        
+        x_angle = degree_to_rad(angles[0]);
+        y_angle = degree_to_rad(angles[1]);
+        z_angle = degree_to_rad(angles[2]);
+        
+        x_cos = np.cos(x_angle)
+        x_sin = np.sin(x_angle)
+        y_cos = np.cos(y_angle)
+        y_sin = np.sin(y_angle)
+        z_cos = np.cos(z_angle)
+        z_sin = np.sin(z_angle)
+        
+        R=np.matrix(
+            [
+                [z_cos*y_cos, z_cos*y_sin*x_sin -z_sin*x_cos, z_cos*y_sin*x_cos+z_sin*x_sin, 0],
+                [z_sin*y_cos, z_sin*y_sin*x_sin+z_cos*x_cos, z_sin*y_sin*x_cos-z_cos*x_sin, 0],
+                [-y_sin, y_cos*x_sin, y_cos*x_cos, 0],
+                [0,0,0,1]
+            
+            ]
+            )
+        
+        return R
+    
     def get_offset_assoluto(self, instant, joint_name):
         
         result = np.matrix(self.joint_offset(joint_name))
