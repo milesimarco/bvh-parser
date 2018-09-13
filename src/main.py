@@ -1,11 +1,11 @@
 from bvh import *
 from bvh_extend import *
 import datetime
+import os.path
 
-
-
-f = open(r'C:\Users\miles\eclipse-workspace\prova_bvh\src\tests\bvh_carrozzina.bvh')
+#f = open(r'C:\Users\miles\eclipse-workspace\prova_bvh\src\tests\bvh_carrozzina.bvh')
 #f = open(r'C:\Users\Gianb\Documents\GitHub\prova_bvh\src\tests\bvh_carrozzina.bvh') #lo esegue gianby
+f=open(os.path.relpath('bvh_carrozzina.bvh', start=os.curdir))
 data = BvhCalculator(f.read())
 
 joint_names = data.get_joints_names();
