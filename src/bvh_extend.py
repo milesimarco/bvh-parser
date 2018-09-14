@@ -13,25 +13,18 @@ class BvhCalculator(bvh.Bvh):
             frame_joint_channels[ joint_channels.index("Zrotation") ]
         ]
         
-        x_angle = degree_to_rad(angles[0]);
-        y_angle = degree_to_rad(angles[1]);
-        z_angle = degree_to_rad(angles[2]);
+        x_angle = deg2rad(angles[0]);
+        y_angle = deg2rad(angles[1]);
+        z_angle = deg2rad(angles[2]);
         
-        x_cos = np.cos(x_angle)
-        x_sin = np.sin(x_angle)
-        y_cos = np.cos(y_angle)
-        y_sin = np.sin(y_angle)
-        z_cos = np.cos(z_angle)
-        z_sin = np.sin(z_angle)
+        x_cos = math.cos(x_angle)
+        x_sin = math.sin(x_angle)
+        y_cos = math.cos(y_angle)
+        y_sin = math.sin(y_angle)
+        z_cos = math.cos(z_angle)
+        z_sin = math.sin(z_angle)
         
-        #x_cos = math.cos(x_angle)
-        #x_sin = math.sin(x_angle)
-        #y_cos = math.cos(y_angle)
-        #y_sin = math.sin(y_angle)
-        #z_cos = math.cos(z_angle)
-        #z_sin = math.sin(z_angle)
-        
-        RX = np.matrix(
+        RX = np.asarray(
             [
                 [1, 0, 0, 0],
                 [0, x_cos, x_sin, 0 ],
@@ -39,7 +32,7 @@ class BvhCalculator(bvh.Bvh):
                 [0, 0, 0, 1]
             ]
             )
-        RY = np.matrix(
+        RY = np.asarray(
             [
                 [y_cos, 0, -y_sin, 0],
                 [0, 1, 0, 0 ],
@@ -47,7 +40,7 @@ class BvhCalculator(bvh.Bvh):
                 [0, 0, 0, 1]
             ]
             )
-        RZ = np.matrix(
+        RZ = np.asarray(
             [
                 [z_cos, z_sin, 0, 0],
                 [-z_sin, z_cos, 0, 0 ],
@@ -55,6 +48,7 @@ class BvhCalculator(bvh.Bvh):
                 [0, 0, 0, 1]
             ]
             )
+
         return [ RX, RY, RZ]
     
     def get_magic(self, instant, joint_channels, frame_joint_channels): #calcolo una matrice sola
@@ -67,9 +61,9 @@ class BvhCalculator(bvh.Bvh):
             frame_joint_channels[ joint_channels.index("Zrotation") ]
         ]
         
-        x_angle = degree_to_rad(angles[0]);
-        y_angle = degree_to_rad(angles[1]);
-        z_angle = degree_to_rad(angles[2]);
+        x_angle = deg2rad(angles[0]);
+        y_angle = deg2rad(angles[1]);
+        z_angle = deg2rad(angles[2]);
         
         x_cos = np.cos(x_angle)
         x_sin = np.sin(x_angle)
@@ -114,7 +108,8 @@ class BvhCalculator(bvh.Bvh):
         ]
         
     def get_rotation(self, instant, joint_channels, frames_joint_channels):
-        k = self.get_eulero_angles( instant, joint_channels, frames_joint_channels)
+        k = self.get_magic( instant, joint_channels, frames_joint_channels)
+        return k;
         return calculate_Rzyx(k[0], k[1], k[2]) # Alias: rotation
         
     def get_rototraslation(self, joint_name, instant, rotation):
@@ -132,9 +127,6 @@ class BvhCalculator(bvh.Bvh):
         
         
         
-    
-    
-    
     
     def set_offset_assoluto_all(self):
         joint_names = self.get_joints_names();
