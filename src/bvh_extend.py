@@ -1,7 +1,9 @@
 import bvh
 import numpy as np
 from functions import *
-#import math
+from estensione import *
+# import math
+
 
 class BvhCalculator(bvh.Bvh):
 
@@ -51,9 +53,9 @@ class BvhCalculator(bvh.Bvh):
 
         return [ RX, RY, RZ]
     
-    def get_magic(self, instant, joint_channels, frame_joint_channels): #calcolo una matrice sola
-                                                                        #invece che 3 per poi moltiplicarle
-                                                                        #magari sveltisce, quando sistemiamo gli offset
+    def get_magic(self, instant, joint_channels, frame_joint_channels):  # calcolo una matrice sola
+                                                                        # invece che 3 per poi moltiplicarle
+                                                                        # magari sveltisce, quando sistemiamo gli offset
         
         angles = [
             frame_joint_channels[ joint_channels.index("Xrotation") ],
@@ -72,18 +74,35 @@ class BvhCalculator(bvh.Bvh):
         z_cos = np.cos(z_angle)
         z_sin = np.sin(z_angle)
         
-        R=np.matrix(
+        R = np.matrix(
             [
-                [z_cos*y_cos, z_cos*y_sin*x_sin -z_sin*x_cos, z_cos*y_sin*x_cos+z_sin*x_sin, 0],
-                [z_sin*y_cos, z_sin*y_sin*x_sin+z_cos*x_cos, z_sin*y_sin*x_cos-z_cos*x_sin, 0],
-                [-y_sin, y_cos*x_sin, y_cos*x_cos, 0],
-                [0,0,0,1]
+                [z_cos * y_cos, z_cos * y_sin * x_sin - z_sin * x_cos, z_cos * y_sin * x_cos + z_sin * x_sin, 0],
+                [z_sin * y_cos, z_sin * y_sin * x_sin + z_cos * x_cos, z_sin * y_sin * x_cos - z_cos * x_sin, 0],
+                [-y_sin, y_cos * x_sin, y_cos * x_cos, 0],
+                [0, 0, 0, 1]
             
             ]
             )
         
         return R
     
+    def get_magicEnglish(self, instant, joint_channels, frame_joint_channels):  # calcolo una matrice sola
+                                                                        # invece che 3 per poi moltiplicarle
+                                                                        # magari sveltisce, quando sistemiamo gli offset
+        
+        angles = [
+            frame_joint_channels[ joint_channels.index("Xrotation") ],
+            frame_joint_channels[ joint_channels.index("Yrotation") ],
+            frame_joint_channels[ joint_channels.index("Zrotation") ]
+        ]
+        
+        x_angle = deg2rad(angles[0]);
+        y_angle = deg2rad(angles[1]);
+        z_angle = deg2rad(angles[2]);
+        
+        return euler_matrix(x_angle, y_angle, z_angle, 'sxyz');
+
+
     def get_offset_assoluto(self, instant, joint_name):
         
         result = np.matrix(self.joint_offset(joint_name))
@@ -94,6 +113,7 @@ class BvhCalculator(bvh.Bvh):
             joint_name = joint_parent_name
             
         return result + np.matrix(self.get_hip_traslation(instant))
+
     
     def get_hip_traslation(self, instant=0):
         
@@ -106,26 +126,24 @@ class BvhCalculator(bvh.Bvh):
             frames_joint_channels[ instant ][ joint_channels.index("Yposition") ],
             frames_joint_channels[ instant ][ joint_channels.index("Zposition") ]
         ]
+
         
     def get_rotation(self, instant, joint_channels, frames_joint_channels):
-        k = self.get_magic( instant, joint_channels, frames_joint_channels)
+        k = self.get_magic(instant, joint_channels, frames_joint_channels)
         return k;
-        return calculate_Rzyx(k[0], k[1], k[2]) # Alias: rotation
+        return calculate_Rzyx(k[0], k[1], k[2])  # Alias: rotation
+
         
     def get_rototraslation(self, joint_name, instant, rotation):
         abs_pos_now = self.get_offset_assoluto(instant, joint_name)
-        abs_pos_before = self.get_offset_assoluto(instant-1, joint_name)
-        abs_diff = np.subtract( abs_pos_now, abs_pos_before)
-        #abs_diff = np.append( abs_diff, np.matrix( [[1]] ))
+        abs_pos_before = self.get_offset_assoluto(instant - 1, joint_name)
+        abs_diff = np.subtract(abs_pos_now, abs_pos_before)
+        # abs_diff = np.append( abs_diff, np.matrix( [[1]] ))
         abs_diff = abs_diff.reshape((-1, 1))
         c = np.array([[1]])
-        abs_diff = np.concatenate( (abs_diff, c), axis=0 )
+        abs_diff = np.concatenate((abs_diff, c), axis=0)
         rotation[:, 3] = abs_diff
         return rotation
-        
-        
-        
-        
         
     
     def set_offset_assoluto_all(self):
@@ -139,6 +157,7 @@ class BvhCalculator(bvh.Bvh):
                 self.get_joint(joint_names[j]).var_offset_assoluto.append(self.get_offset_assoluto(joint_names[j], i))
                 j += 1
             i += 1
+
         
     def calculate_joints_rotations_all_frames(self):
         joint_names = self.get_joints_names();
@@ -154,8 +173,12 @@ class BvhCalculator(bvh.Bvh):
                 node = self.get_joint(joint_names[j])
                 node.get_hip_traslation(i)
 
+                
+    
 
 class BvhNodeExtend(bvh.BvhNode):
 
     def test(self):
         return 0
+    
+    

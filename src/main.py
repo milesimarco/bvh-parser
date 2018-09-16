@@ -13,7 +13,7 @@ print( "Nomi " + str( joint_names ) )
 
 # VALUES TO CHANGE
 joint_name = "MiddleSpine"
-frame_index = 0
+frame_index = 1
 
 print ( "\n##### Calculating " + joint_name + " on frame_index " + str(frame_index))
 joint_channels = data.joint_channels(joint_name)  # Array con i nomi dei joint
@@ -23,11 +23,14 @@ frame_joint_channels = data.frame_joint_channels(frame_index, joint_name, joint_
 
 print( "\nRotazione RZ * RY * RX")
 eulero_angles = data.get_eulero_angles( frame_index, joint_channels, frame_joint_channels )
+
 print( calculate_Rzyx( eulero_angles[0], eulero_angles[1], eulero_angles[2] ) )
 print( "\nMAGIC")
 print( data.get_magic( frame_index, joint_channels, frame_joint_channels ) )
 #magic = data.get_magic ( frame_index, joint_channels, frame_joint_channels )
 #print(magic) #alternativa
+print( "\nMAGICEnglish")  #forse ci siamo
+print(data.get_magicEnglish(frame_index, joint_channels, frame_joint_channels));
 print( "\nOffset assoluto")
 print( data.get_offset_assoluto(frame_index, joint_name))
 
@@ -57,9 +60,9 @@ while frame_index < data.nframes:
     while j < len( joint_names ):
         joint_name = joint_names[j]
         joint_channels = data.joint_channels(joint_name)
-    
         frame_joint_channels = data.frame_joint_channels(frame_index, joint_name, joint_channels)
-        rotation = data.get_rotation(frame_index, joint_channels, frame_joint_channels)
+       # rotation = data.get_rotation(frame_index, joint_channels, frame_joint_channels)
+        banana=data.get_magicEnglish(frame_index, joint_channels, frame_joint_channels);
         #print("    Joint Name " + joint_name)
         #print( data.get_rototraslation(joint_name, instant, rotation) )
         j += 1
