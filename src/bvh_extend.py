@@ -1,9 +1,8 @@
 import bvh
 import numpy as np
 from functions import *
-from estensione import *
-# import math
-
+#from estensione import *
+from transforms3d.euler import euler2mat
 
 class BvhCalculator(bvh.Bvh):
 
@@ -100,7 +99,9 @@ class BvhCalculator(bvh.Bvh):
         y_angle = deg2rad(angles[1]);
         z_angle = deg2rad(angles[2]);
         
-        return euler_matrix(x_angle, y_angle, z_angle, 'sxyz');
+        #return euler_matrix(x_angle, y_angle, z_angle, 'sxyz');
+        return euler2mat(x_angle,y_angle,z_angle,'sxyz');  #con utilizzo di libreria 3d transform #tempisticamente identico al mio
+                                                            # estensione
 
 
     def get_offset_assoluto(self, instant, joint_name):
