@@ -7,6 +7,7 @@ class BvhNode:
         self.value = value
         self.children = []
         self.parent = parent
+        self.offsets = [] #0 -> [...], 1-> [...] ....
         if self.parent:
             self.parent.add_child(self)
 
@@ -14,6 +15,13 @@ class BvhNode:
         item.parent = self
         self.children.append(item)
 
+    def get_childs(self): #MM
+        childrens = []
+        for child in self.children:
+            if child.value[0] == "JOINT":
+                childrens.append( child.value[1] )
+        return childrens
+        
     def filter(self, key):
         for child in self.children:
             if child.value[0] == key:
