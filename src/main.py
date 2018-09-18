@@ -29,7 +29,7 @@ print( "\nEuler")
 print( data.get_matrix( frame_index, joint_channels, frame_joint_channels ) )
 #magic = data.get_magic ( frame_index, joint_channels, frame_joint_channels )
 #print(magic) #alternativa
-print( "\nEuler2Mar")  #forse ci siamo
+print( "\nEuler2Mat")  #forse ci siamo
 print(data.get_matrix3d(frame_index, joint_channels, frame_joint_channels));
 print( "\nOffset assoluto")
 print( data.get_offset_assoluto(frame_index, joint_name))
