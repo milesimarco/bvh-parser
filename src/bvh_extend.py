@@ -6,7 +6,7 @@ from transforms3d.euler import euler2mat
 
 class BvhCalculator(bvh.Bvh):
 
-    def get_eulero_angles(self, instant, joint_channels, frame_joint_channels):
+    def get_eulero_angles(self, instant, joint_channels, frame_joint_channels): #deprecated
         
         angles = [
             frame_joint_channels[ joint_channels.index("Xrotation") ],
@@ -52,7 +52,7 @@ class BvhCalculator(bvh.Bvh):
 
         return [ RX, RY, RZ]
     
-    def get_magic(self, instant, joint_channels, frame_joint_channels):  # calcolo una matrice sola
+    def get_matrix(self, instant, joint_channels, frame_joint_channels):  # calcolo una matrice sola
                                                                         # invece che 3 per poi moltiplicarle
                                                                         # magari sveltisce, quando sistemiamo gli offset
         
@@ -85,9 +85,7 @@ class BvhCalculator(bvh.Bvh):
         
         return R
     
-    def get_magicEnglish(self, instant, joint_channels, frame_joint_channels):  # calcolo una matrice sola
-                                                                        # invece che 3 per poi moltiplicarle
-                                                                        # magari sveltisce, quando sistemiamo gli offset
+    def get_matrix3d(self, instant, joint_channels, frame_joint_channels):  #usa il metodo euler2mat della libreria transform3d
         
         angles = [
             frame_joint_channels[ joint_channels.index("Xrotation") ],
@@ -130,9 +128,9 @@ class BvhCalculator(bvh.Bvh):
 
         
     def get_rotation(self, instant, joint_channels, frames_joint_channels):
-        k = self.get_magic(instant, joint_channels, frames_joint_channels)
+        k = self.get_matrix(instant, joint_channels, frames_joint_channels)
         return k;
-        return calculate_Rzyx(k[0], k[1], k[2])  # Alias: rotation
+        #return calculate_Rzyx(k[0], k[1], k[2])  # Alias: rotation
 
         
     def get_rototraslation(self, joint_name, instant, rotation):
