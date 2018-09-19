@@ -8,7 +8,13 @@ import os.path
 f=open(os.path.relpath('bvh_carrozzina.bvh', start=os.curdir))
 data = BvhCalculator(f.read())
 
+start = datetime.datetime.now()
 data.set_offset_assoluto_all_new()
+end = datetime.datetime.now()
+elapsed = end - start
+
+print("Tempo impiegato: " + str(elapsed.seconds) + ":" + str(elapsed.microseconds)) 
+
 raise SystemExit
 
 joint_names = data.get_joints_names();

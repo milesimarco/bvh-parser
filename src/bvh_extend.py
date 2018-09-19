@@ -111,6 +111,23 @@ class BvhCalculator(bvh.Bvh):
         return rotation
         
     
+    def set_rototraslation_new(self):
+        joint_names = self.get_joints_names()
+        
+        frame_index = 0
+        while frame_index < self.nframes:
+            
+            j = 0
+            while j < len( joint_names ):
+                joint_name = joint_names[j]
+        
+                abs_pos = self.get_joint(joint_name).offsets[frame_index]
+                abs_pos_before = abs_pos = self.get_joint( joint_name ).offsets[frame_index-1]
+                abs_diff = np.subtract(abs_pos_now, abs_pos_before)
+                c = np.array([[1]])
+                abs_diff = np.concatenate((abs_diff, c), axis=1)
+                rotation[:, 3] = abs_diff
+    
     def set_offset_assoluto_all_new(self):
         joint_names = self.get_joints_names();
         
@@ -150,21 +167,39 @@ class BvhCalculator(bvh.Bvh):
                     nodi_da_fare = nodi_da_fare + c
                     
                 nodi_da_fare.remove( child_name )
-                print( "# " + str(nodi_da_fare))
+                #print( "# " + str(nodi_da_fare))
                 #print( str(self.get_joint( child_name).offsets) )
+            
+        # Istanti > 0
+        frame_index = 1
+        while frame_index < self.nframes:
+            hip_translation = np.subtract( self.get_hip_traslation( frame_index ), self.get_hip_traslation( frame_index - 1 ) )
+            
+            j = 1
+            while j < len(joint_names) - 1:
+                joint_name = joint_names[j]
+                joint = self.get_joint( joint_name )
+                #print( "ID " + str( frame_index ) + " " + joint_name + " @ " + str(joint.offsets))
+                offset = joint.offsets[ frame_index-1 ] +  hip_translation
+                joint.offsets.append(offset)
+                
+                j+=1
+            
+            frame_index += 1
             
         self.print_offsets(0)
         
     def print_offsets(self, frame_index = 0):
         joint_names = self.get_joints_names();
         
+        print( "###### OFFSETS frame_index " + str(frame_index) + " ######")
         j = 0
         while j < len(joint_names) - 1:
             joint = self.get_joint( joint_names[j] )
-            print( joint_names[j] + " // " + str( joint.offsets ) )
+            print( joint_names[j] + "        " + str( joint.offsets ) )
             j += 1
         
-        print ( "Total: " + str(j))
+        print ( "Total: " + str(j+1) + "\n#########")
         
     def set_offset_assoluto_all(self):
         joint_names = self.get_joints_names();
