@@ -66,11 +66,8 @@ class BvhCalculator(bvh.Bvh):
         y_angle = deg2rad(angles[1]);
         z_angle = deg2rad(angles[2]);
         
-        #return euler_matrix(x_angle, y_angle, z_angle, 'sxyz');
         a = compose( np.zeros(3), euler2mat(x_angle,y_angle,z_angle,'sxyz'), [1.0, 1.0, 1.0] )
-        return a  #con utilizzo di libreria 3d transform #tempisticamente identico al mio
-                                                            # estensione
-
+        return a
 
     def get_offset_assoluto(self, instant, joint_name):
         
@@ -117,31 +114,37 @@ class BvhCalculator(bvh.Bvh):
         frame_index = 0
         while frame_index < self.nframes:
             
+            #print( "rototrasl frame_index " + str(frame_index) )
             j = 0
             while j < len( joint_names ):
-                joint_name = joint_names[j]
-        
-                abs_pos = self.get_joint(joint_name).offsets[frame_index]
-                abs_pos_before = abs_pos = self.get_joint( joint_name ).offsets[frame_index-1]
+                joint_name = joint_names[j]                
+                joint_channels = self.joint_channels(joint_name)
+                frame_joint_channels = self.frame_joint_channels(frame_index, joint_name, joint_channels)
+                rotation = self.get_rotation( frame_index, joint_channels, frame_joint_channels)
+                
+                #print( "DEBUG " + joint_name + " index " + str(frame_index))
+                abs_pos_now = self.get_joint(joint_name).offsets[frame_index]
+                abs_pos_before = self.get_joint( joint_name ).offsets[frame_index-1]
                 abs_diff = np.subtract(abs_pos_now, abs_pos_before)
-                c = np.array([[1]])
-                abs_diff = np.concatenate((abs_diff, c), axis=1)
+                abs_diff = np.append( abs_diff, [1] )
                 rotation[:, 3] = abs_diff
-    
+                j+=1
+                
+            frame_index+=1
     def set_offset_assoluto_all_new(self):
         joint_names = self.get_joints_names();
         
         actual_node = self.get_joint( "Hip" ) #start
         strat_hip_translation = self.get_hip_traslation(0)
-        print( "HIP TRASLATION " + str( strat_hip_translation ) )
+        #print( "HIP TRASLATION " + str( strat_hip_translation ) )
         
         figli_hip = actual_node.get_childs()
         nodi_da_fare = []
-        print ( "a " + str(figli_hip))
+        #print ( "a " + str(figli_hip))
         for child_name in figli_hip:
             #print( child_name )
             for child_child_name in self.get_joint(child_name).get_childs():
-                print( "child of " + child_name + " @ " + child_child_name )
+                #print( "child of " + child_name + " @ " + child_child_name )
                 nodi_da_fare.append( child_child_name )
 
             offset = np.add( strat_hip_translation,  self.joint_offset( child_name ) )
@@ -150,14 +153,14 @@ class BvhCalculator(bvh.Bvh):
         #self.print_offsets();
                 
         while len( nodi_da_fare ) != 0:
-            print( "ToDo: " + str( nodi_da_fare ) )
+            #print( "ToDo: " + str( nodi_da_fare ) )
             for child_name in nodi_da_fare:
-                print( child_name)
+                #print( child_name)
                 
                 joint = self.get_joint( child_name )
                 parent = self.joint_parent( child_name )
                 #print( child_name + str( self.joint_offset( child_name ) ) )
-                print( "@ " + str( parent.offsets ))
+                #print( "@ " + str( parent.offsets ))
                 offset = np.add( parent.offsets[0],  self.joint_offset( child_name ) )
                 joint.offsets.append(offset)
                 
@@ -169,14 +172,16 @@ class BvhCalculator(bvh.Bvh):
                 nodi_da_fare.remove( child_name )
                 #print( "# " + str(nodi_da_fare))
                 #print( str(self.get_joint( child_name).offsets) )
-            
+        
+        self.get_joint( joint_names[0] ).offsets.append( self.get_hip_traslation( 0 ) )
         # Istanti > 0
         frame_index = 1
         while frame_index < self.nframes:
+            self.get_joint( joint_names[0] ).offsets.append( self.get_hip_traslation( frame_index ) )
             hip_translation = np.subtract( self.get_hip_traslation( frame_index ), self.get_hip_traslation( frame_index - 1 ) )
             
             j = 1
-            while j < len(joint_names) - 1:
+            while j < len(joint_names):
                 joint_name = joint_names[j]
                 joint = self.get_joint( joint_name )
                 #print( "ID " + str( frame_index ) + " " + joint_name + " @ " + str(joint.offsets))

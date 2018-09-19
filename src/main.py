@@ -10,6 +10,7 @@ data = BvhCalculator(f.read())
 
 start = datetime.datetime.now()
 data.set_offset_assoluto_all_new()
+data.set_rototraslation_new()
 end = datetime.datetime.now()
 elapsed = end - start
 
