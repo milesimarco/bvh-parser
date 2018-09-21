@@ -10,7 +10,42 @@ import os.path
 #f=open(os.path.relpath('bvh_carrozzina.bvh', start=os.curdir))
 f=open(os.path.relpath('2017-12-22_16-22-35.bvh', start=os.curdir))
 data = BvhCalculator(f.read())
+print( data.nframes )
+start = datetime.datetime.now()
 
+# Calcola tutte le rototraslazioni
+data.calculate_rototranslations()
+
+end = datetime.datetime.now()
+elapsed = end - start
+
+print("Tempo impiegato: " + str(elapsed.seconds) + ":" + str(elapsed.microseconds)) 
+
+#joint_names = data.get_joints_names()
+#j = 0
+#while j < len( joint_names ):
+#    joint_name = joint_names[j]
+#    x = data.get_joint(joint_name).rototranslation
+#    print( joint_name + " " + str( len(x) ) + " " )
+#    j += 1
+        
+# Test
+print( data.get_joint("Hip").get_rototranslation(1) )
+print( data.get_joint("Hip").get_position(1) )
+print( data.get_joint("Hip").get_position(2) )
+print( data.get_joint("Hip").get_position(3) )
+print( data.get_joint("LowerSpine").get_position(3) )
+print( data.get_joint("MiddleSpine").get_position(4) )
+
+print( "last frame tests")
+print( data.get_joint("Hip").get_position( data.nframes -1 ) )
+print( data.get_joint("LowerSpine").get_position( data.nframes -1) )
+print( data.get_joint("MiddleSpine").get_position( data.nframes -1) )
+print( data.get_joint("Chest").get_position( data.nframes -1) )
+print( data.get_joint("LToe").get_position( data.nframes -1) )
+
+
+raise SystemError
 start = datetime.datetime.now()
 
 #data.set_tpos_all()

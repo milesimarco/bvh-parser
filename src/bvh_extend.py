@@ -5,9 +5,67 @@ from functions import *
 from transforms3d.euler import euler2mat
 from transforms3d.affines import compose
 from array import array
+from estensione import *
 
 class BvhCalculator(bvh.Bvh):
 
+    # Marco Milesi 20180921
+    def calculate_rototranslations(self):
+        
+        np.set_printoptions(suppress=True)
+        
+        joint_names = self.get_joints_names()
+        identity = np.identity(4)
+        
+        # HIP
+        
+        frame_index = 0
+        joint_name = "Hip"
+        joint = self.get_joint(joint_name)
+        while frame_index < self.nframes:
+            
+            Xr = self.frame_joint_channel( frame_index, joint_name, "Xrotation")
+            Yr = self.frame_joint_channel( frame_index, joint_name, "Yrotation")
+            Zr = self.frame_joint_channel( frame_index, joint_name, "Zrotation")
+            rotation = euler_matrix( deg2rad(Xr), deg2rad(Yr), deg2rad(Zr), "rxyz" )
+            
+            trasl = identity
+            trasl[:, 3] = np.append( self.get_hip_traslation( frame_index ), [1] )
+            M = np.dot( trasl, rotation )
+            joint.rototranslation.append(M)
+            
+            frame_index+=1
+                
+        
+        j = 1
+        while j < len( joint_names ):
+            
+            joint_name = joint_names[j]
+            trasl = identity
+            trasl[:, 3] = np.append( self.joint_offset( joint_name), [1] )
+            
+            joint = self.get_joint(joint_name)
+            
+            frame_index = 0
+            while frame_index < self.nframes:
+                
+                Xr = self.frame_joint_channel( frame_index, joint_name, "Xrotation")
+                Yr = self.frame_joint_channel( frame_index, joint_name, "Yrotation")
+                Zr = self.frame_joint_channel( frame_index, joint_name, "Zrotation")
+                
+                rotation = euler_matrix( deg2rad(Xr), deg2rad(Yr), deg2rad(Zr), "rxyz" )
+                
+                M = np.dot( self.joint_parent( joint_name ).rototranslation[frame_index], np.dot(trasl, rotation ) )
+                
+                #print( joint_name + " @ " + str(frame_index) )
+                #print( str(M) )
+                joint.rototranslation.append(M)
+                
+                frame_index+=1
+            j+=1
+                
+            
+        
     def get_eulero_angles(self, instant, joint_channels, frame_joint_channels): #deprecated
         
         angles = [

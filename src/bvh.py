@@ -1,4 +1,5 @@
 import re
+import numpy as np
 
 
 class BvhNode:
@@ -10,9 +11,17 @@ class BvhNode:
         self.offsets = [] #0 -> [...], 1-> [...] ....
         self.TPos = []
         self.rotations = []
+        self.rototranslation = []
         if self.parent:
             self.parent.add_child(self)
 
+    def get_rototranslation(self, frame_index):
+        return self.rototranslation[frame_index]
+        
+    def get_position(self, frame_index):
+        A = np.array( self.rototranslation[frame_index] )
+        return A[0:3,3]
+    
     def add_child(self, item):
         item.parent = self
         self.children.append(item)
