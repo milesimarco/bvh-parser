@@ -23,5 +23,29 @@ def calculate_Rzyx(RX, RY, RZ):
 def deg2rad(x):
     return x/180*math.pi
 
-def rad2deg(x):
-    return x/math.pi*180
+#def rad2deg(x):
+ #   return x/math.pi*180
+
+def eulerAnglesToRotationMatrix(Xr, Yr, Zr) :
+     
+    R_x = np.array([[1,         0,                  0                   ],
+                    [0,         math.cos(Xr), -math.sin(Xr) ],
+                    [0,         math.sin(Xr), math.cos(Xr)  ]
+                    ])
+         
+         
+                     
+    R_y = np.array([[math.cos(Yr),    0,      math.sin(Yr)  ],
+                    [0,                     1,      0                   ],
+                    [-math.sin(Yr),   0,      math.cos(Yr)  ]
+                    ])
+                 
+    R_z = np.array([[math.cos(Zr),    -math.sin(Zr),    0],
+                    [math.sin(Zr),    math.cos(Zr),     0],
+                    [0,                     0,                      1]
+                    ])
+                     
+                     
+    R = np.dot(R_z, np.dot( R_y, R_x ))
+ 
+    return R

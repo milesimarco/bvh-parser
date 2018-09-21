@@ -5,12 +5,22 @@ import os.path
 
 #f = open(r'C:\Users\miles\eclipse-workspace\prova_bvh\src\tests\bvh_carrozzina.bvh')
 #f = open(r'C:\Users\Gianb\Documents\GitHub\prova_bvh\src\tests\bvh_carrozzina.bvh') #lo esegue gianby
-f=open(os.path.relpath('bvh_carrozzina.bvh', start=os.curdir))
+
+
+#f=open(os.path.relpath('bvh_carrozzina.bvh', start=os.curdir))
+f=open(os.path.relpath('2017-12-22_16-22-35.bvh', start=os.curdir))
 data = BvhCalculator(f.read())
 
 start = datetime.datetime.now()
+
+#data.set_tpos_all()
+#data.set_offset_assoluto_all_new()
+#data.set_rototrasl_all()
+#data.set_rototraslation_2()
+
 data.set_offset_assoluto_all_new()
 data.set_rototraslation_new()
+raise SystemError
 end = datetime.datetime.now()
 elapsed = end - start
 

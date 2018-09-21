@@ -8,6 +8,7 @@ class BvhNode:
         self.children = []
         self.parent = parent
         self.offsets = [] #0 -> [...], 1-> [...] ....
+        self.TPos = []
         self.rotations = []
         if self.parent:
             self.parent.add_child(self)
