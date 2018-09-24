@@ -1,6 +1,7 @@
 import re
 import numpy as np
 
+#importer file .Bvh
 
 class BvhNode:
 

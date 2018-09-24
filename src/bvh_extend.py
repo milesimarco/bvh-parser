@@ -1,12 +1,16 @@
 import bvh
 from bvh_functions import *
 import datetime
-#from transforms3d.euler import euler2mat
-#from transforms3d.affines import compose
+#from transforms3d.euler import euler2mat 
+#from transforms3d.affines import compose 
+
+#questa lib verrà usata per andare a prendere i pezzi specifici della matrice Rototrasl
 
 class BvhCalculator(bvh.Bvh):
 
     # Marco Milesi 20180921
+    #calcola rototraslazioni secondo la formula M=T*R
+    #e considerando che per ogni nodo bisogna concatenare le matrici precedenti M come Moltiplicazione
     def calculate_rototranslations(self):
         
         np.set_printoptions(suppress=True)
@@ -64,6 +68,8 @@ class BvhCalculator(bvh.Bvh):
             j+=1
     
     # Marco Milesi 20180924
+    #calcola la matrice di rototraslazione relativa al solo padre stretto del nodo passato
+    #calcola la differenza tra L'M del figlio e quello del padre
     def calculate_rototranslations_relative(self):
         
         np.set_printoptions(suppress=True)
@@ -99,7 +105,8 @@ class BvhCalculator(bvh.Bvh):
             
         end = datetime.datetime.now()
         time_print(start, end, "tutti i giunti tranne hip, su tutti i frame")
-        
+    
+    # ricava la X,Y,Z position del nodo Hip Ricavandola dai channel ricavati dal bvh   
     def get_hip_traslation(self, instant=0):
         
         hip_name = self.get_joints_names()[0];
@@ -112,7 +119,9 @@ class BvhCalculator(bvh.Bvh):
             frames_joint_channels[ instant ][ joint_channels.index("Zposition") ]
         ]
     
-    def calcuate_tpos(self):
+    #calcola la T Stance ricavandola dagli offsset presenti nella struttura gerarchica, per ogni nodo va a sommare gli offset
+    #dei padri fino ad hip (la T stance rappresenta un singolo frame con l'omino a forma di T)
+    def calculate_tpos(self):
         
         joint_names = self.get_joints_names();
         
@@ -129,7 +138,8 @@ class BvhCalculator(bvh.Bvh):
             self.get_joint( joint_names[j] ).tpos = matrix
             j+=1
             
-    def calcuate_tpos_old(self):
+    #Deprecated       
+    def calcualte_tpos_old(self):
         
         joint_names = self.get_joints_names();
         
