@@ -14,54 +14,49 @@ data.calcuate_tpos() # Calcola tutte le rototraslazioni
 end = datetime.datetime.now()
 time_print(start, end, "Tpos, tutti frame")
 
-
+if 1 == 1: # Test
+    print( data.get_joint("Hip").get_tpos_vector() )
+    print( data.get_joint("LowerSpine").get_tpos_vector() )
+    print( data.get_joint("MiddleSpine").get_tpos_vector() )
+    print( data.get_joint("Chest").get_tpos_vector() )
+    print( data.get_joint("LToe").get_tpos_vector() )
+    
 start = datetime.datetime.now()
 data.calculate_rototranslations() # Calcola tutte le rototraslazioni
 end = datetime.datetime.now()
 time_print(start, end, "Rototraslazioni, tutti frame")
-
-#joint_names = data.get_joints_names()
-#j = 0
-#while j < len( joint_names ):
-#    joint_name = joint_names[j]
-#    x = data.get_joint(joint_name).rototranslation
-#    print( joint_name + " " + str( len(x) ) + " " )
-#    j += 1
       
 if 0 == 1: # Test
-    print( data.get_joint("Hip").get_rototranslation(1) )
-    print( data.get_joint("Hip").get_position(1) )
-    print( data.get_joint("Hip").get_position(2) )
-    print( data.get_joint("Hip").get_position(3) )
-    print( data.get_joint("LowerSpine").get_position(3) )
-    print( data.get_joint("MiddleSpine").get_position(4) )
+    print( data.get_joint("Hip").get_rototranslation_matrix(1) )
+    print( data.get_joint("Hip").get_position_vector(1) )
+    print( data.get_joint("Hip").get_position_vector(2) )
+    print( data.get_joint("Hip").get_position_vector(3) )
+    print( data.get_joint("LowerSpine").get_position_vector(3) )
+    print( data.get_joint("MiddleSpine").get_position_vector(4) )
     
     print( "last frame tests")
-    print( data.get_joint("Hip").get_position( data.nframes -1 ) )
-    print( data.get_joint("LowerSpine").get_position( data.nframes -1) )
-    print( data.get_joint("MiddleSpine").get_position( data.nframes -1) )
-    print( data.get_joint("Chest").get_position( data.nframes -1) )
-    print( data.get_joint("LToe").get_position( data.nframes -1) )
-
-
-print( "###########" )
+    print( data.get_joint("Hip").get_position_vector( data.nframes -1 ) )
+    print( data.get_joint("LowerSpine").get_position_vector( data.nframes -1) )
+    print( data.get_joint("MiddleSpine").get_position_vector( data.nframes -1) )
+    print( data.get_joint("Chest").get_position_vector( data.nframes -1) )
+    print( data.get_joint("LToe").get_position_vector( data.nframes -1) )
 
 start = datetime.datetime.now()
 data.calculate_rototranslations_relative() # Calcola tutte le rototraslazioni
 end = datetime.datetime.now()
 time_print(start, end, "Rototraslazioni Relative, tutte")
 
-if 1 == 1: # Test
-    print( data.get_joint("Hip").get_rototranslation_relative(1) )
-    print( data.get_joint("Hip").get_position_relative(1) )
-    print( data.get_joint("Hip").get_position_relative(2) )
-    print( data.get_joint("Hip").get_position_relative(3) )
-    print( data.get_joint("LowerSpine").get_position_relative(3) )
-    print( data.get_joint("MiddleSpine").get_position_relative(4) )
+if 0 == 1: # Test
+    print( data.get_joint("Hip").get_rototranslation_relative_matrix(1) )
+    print( data.get_joint("Hip").get_position_relative_vector(1) )
+    print( data.get_joint("Hip").get_position_relative_vector(2) )
+    print( data.get_joint("Hip").get_position_relative_vector(3) )
+    print( data.get_joint("LowerSpine").get_position_relative_vector(3) )
+    print( data.get_joint("MiddleSpine").get_position_relative_vector(4) )
     
     print( "last frame tests")
-    print( data.get_joint("Hip").get_position_relative( data.nframes -1 ) )
-    print( data.get_joint("LowerSpine").get_position_relative( data.nframes -1) )
-    print( data.get_joint("MiddleSpine").get_position_relative( data.nframes -1) )
-    print( data.get_joint("Chest").get_position_relative( data.nframes -1) )
-    print( data.get_joint("LToe").get_position_relative( data.nframes -1) )
+    print( data.get_joint("Hip").get_position_relative_matrix( data.nframes -1 ) )
+    print( data.get_joint("LowerSpine").get_position_relative_vector( data.nframes -1) )
+    print( data.get_joint("MiddleSpine").get_position_relative_vector( data.nframes -1) )
+    print( data.get_joint("Chest").get_position_relative_vector( data.nframes -1) )
+    print( data.get_joint("LToe").get_position_relative_vector( data.nframes -1) )

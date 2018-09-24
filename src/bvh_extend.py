@@ -117,13 +117,12 @@ class BvhCalculator(bvh.Bvh):
         joint_names = self.get_joints_names();
         
         j = 0
-        while j < len(joint_names) - 1:
+        while j < len(joint_names):
             matrix = np.identity(4)
             x = np.append( self.joint_offset( joint_names[j] ), [1] )
             matrix[:, 3] = np.append( self.joint_offset( joint_names[j] ), [1] )
             self.get_joint( joint_names[j] ).TPos = matrix
             j+=1
-
 
 class BvhNodeExtend(bvh.BvhNode):
 
