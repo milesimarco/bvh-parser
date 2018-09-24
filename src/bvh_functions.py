@@ -7,7 +7,7 @@ def print_status(actual, total):  # actual : total = % : 100
 
 def time_print(start, end, motiv = ""):
     elapsed = end - start
-    print("Tempo impiegato: " + str(elapsed.seconds) + ":" + str(elapsed.microseconds) + " - " + motiv)
+    print("Tempo impiegato: " + str(elapsed.seconds) + "." + str( elapsed.microseconds)[:2] + "s - " + motiv)
     
 def deg2rad(x):
     return x/180*math.pi

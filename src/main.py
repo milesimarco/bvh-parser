@@ -4,7 +4,8 @@ from bvh_functions import *
 import datetime
 import os.path
 
-f=open(os.path.relpath('2017-12-22_16-22-35.bvh', start=os.curdir))
+f=open(os.path.relpath('carrozzina.bvh', start=os.curdir))
+#f=open(os.path.relpath('2017-12-22_16-22-35.bvh', start=os.curdir))
 data = BvhCalculator(f.read())
 print( "Frame: " + str(data.nframes) + " - Joints: " + str( len(data.get_joints_names() )) )
 
@@ -14,7 +15,7 @@ data.calcuate_tpos() # Calcola tutte le rototraslazioni
 end = datetime.datetime.now()
 time_print(start, end, "Tpos, tutti frame")
 
-if 1 == 1: # Test
+if 0 == 1: # Test
     print( data.get_joint("Hip").get_tpos_vector() )
     print( data.get_joint("LowerSpine").get_tpos_vector() )
     print( data.get_joint("MiddleSpine").get_tpos_vector() )
