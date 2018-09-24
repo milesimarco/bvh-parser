@@ -8,7 +8,7 @@ class BvhNode:
         self.value = value
         self.children = []
         self.parent = parent
-        self.TPos = 0
+        self.tpos = []
         self.rototranslation = []
         self.rototranslation_relative = []
         if self.parent:
@@ -24,7 +24,8 @@ class BvhNode:
         return self.TPos
     
     def get_tpos_vector(self):
-        return np.array( self.TPos )[0:3,3]
+        A = np.array( self.tpos )
+        return A[0:3,3]
     
     def get_position_vector(self, frame_index):
         A = np.array( self.rototranslation[frame_index] )

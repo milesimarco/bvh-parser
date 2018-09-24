@@ -18,6 +18,7 @@ if 1 == 1: # Test
     print( data.get_joint("Hip").get_tpos_vector() )
     print( data.get_joint("LowerSpine").get_tpos_vector() )
     print( data.get_joint("MiddleSpine").get_tpos_vector() )
+    print( data.get_joint("LClavicle").get_tpos_vector() )
     print( data.get_joint("Chest").get_tpos_vector() )
     print( data.get_joint("LToe").get_tpos_vector() )
     

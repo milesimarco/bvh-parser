@@ -116,10 +116,26 @@ class BvhCalculator(bvh.Bvh):
         
         joint_names = self.get_joints_names();
         
+        base = self.get_joint( joint_names[0] )
+        matrix = np.identity(4)
+        matrix[:, 3] = np.append( self.joint_offset( joint_names[0] ), [1] )
+        base.tpos = matrix
+        
+        j = 1
+        while j < len(joint_names):
+            matrix = np.identity(4)
+            s = self.joint_offset( joint_names[j] ) + self.joint_parent( joint_names[j] ).get_tpos_vector()
+            matrix[:, 3] = np.append( s, [1] )
+            self.get_joint( joint_names[j] ).tpos = matrix
+            j+=1
+            
+    def calcuate_tpos_old(self):
+        
+        joint_names = self.get_joints_names();
+        
         j = 0
         while j < len(joint_names):
             matrix = np.identity(4)
-            x = np.append( self.joint_offset( joint_names[j] ), [1] )
             matrix[:, 3] = np.append( self.joint_offset( joint_names[j] ), [1] )
             self.get_joint( joint_names[j] ).TPos = matrix
             j+=1
