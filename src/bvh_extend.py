@@ -15,8 +15,6 @@ class BvhCalculator(bvh.Bvh):
         identity = np.identity(4)
         
         # HIP
-        start = datetime.datetime.now()
-
         frame_index = 0
         joint_name = "Hip"
         joint = self.get_joint(joint_name)
@@ -33,17 +31,12 @@ class BvhCalculator(bvh.Bvh):
             Xt = self.frame_joint_channel( frame_index, joint_name, "Xposition")
             Yt = self.frame_joint_channel( frame_index, joint_name, "Yposition")
             Zt = self.frame_joint_channel( frame_index, joint_name, "Zposition")
-            
             trasl[:, 3] = np.append( [Xt, Yt, Zt], [1] )
             M = np.dot( trasl, rotation )
             joint.rototranslation.append(M)
-            
+           
             frame_index+=1
             
-        end = datetime.datetime.now()
-        time_print(start, end, "Hip su tutti i frame")
-                
-        start = datetime.datetime.now()
         
         j = 1
         while j < len( joint_names ):
@@ -69,9 +62,6 @@ class BvhCalculator(bvh.Bvh):
                 
                 frame_index+=1
             j+=1
-            
-        end = datetime.datetime.now()
-        time_print(start, end, "tutti i giunti tranne hip, su tutti i frame")
     
     # Marco Milesi 20180924
     def calculate_rototranslations_relative(self):
@@ -121,18 +111,18 @@ class BvhCalculator(bvh.Bvh):
             frames_joint_channels[ instant ][ joint_channels.index("Yposition") ],
             frames_joint_channels[ instant ][ joint_channels.index("Zposition") ]
         ]
+    
+    def calcuate_tpos(self):
         
-    def print_offsets(self ):
         joint_names = self.get_joints_names();
         
-        print( "###### OFFSETS ######")
         j = 0
         while j < len(joint_names) - 1:
-            joint = self.get_joint( joint_names[j] )
-            print( joint_names[j] + "        " + str( joint.offsets ) )
-            j += 1
-        
-        print ( "Total: " + str(j+1) + "\n#########")
+            matrix = np.identity(4)
+            x = np.append( self.joint_offset( joint_names[j] ), [1] )
+            matrix[:, 3] = np.append( self.joint_offset( joint_names[j] ), [1] )
+            self.get_joint( joint_names[j] ).TPos = matrix
+            j+=1
 
 
 class BvhNodeExtend(bvh.BvhNode):

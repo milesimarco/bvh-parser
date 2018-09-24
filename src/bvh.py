@@ -8,6 +8,7 @@ class BvhNode:
         self.value = value
         self.children = []
         self.parent = parent
+        self.TPos = []
         self.rototranslation = []
         self.rototranslation_relative = []
         if self.parent:

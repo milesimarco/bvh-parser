@@ -8,10 +8,17 @@ f=open(os.path.relpath('2017-12-22_16-22-35.bvh', start=os.curdir))
 data = BvhCalculator(f.read())
 print( "Frame: " + str(data.nframes) + " - Joints: " + str( len(data.get_joints_names() )) )
 
+
+start = datetime.datetime.now()
+data.calcuate_tpos() # Calcola tutte le rototraslazioni
+end = datetime.datetime.now()
+time_print(start, end, "Tpos, tutti frame")
+
+
 start = datetime.datetime.now()
 data.calculate_rototranslations() # Calcola tutte le rototraslazioni
 end = datetime.datetime.now()
-time_print(start, end, "Rototraslazioni, tutte")
+time_print(start, end, "Rototraslazioni, tutti frame")
 
 #joint_names = data.get_joints_names()
 #j = 0
@@ -58,17 +65,3 @@ if 1 == 1: # Test
     print( data.get_joint("MiddleSpine").get_position_relative( data.nframes -1) )
     print( data.get_joint("Chest").get_position_relative( data.nframes -1) )
     print( data.get_joint("LToe").get_position_relative( data.nframes -1) )
-
-raise SystemError
-
-MHip = data.get_joint( "Hip").rototranslation[0]
-MLowerSpine = data.get_joint( "LowerSpine").rototranslation[0]
-
-T = MLowerSpine - MHip
-print( str(T) )
-
-MLowerSpine = data.get_joint( "LowerSpine").rototranslation[0]
-MMiddleSpine = data.get_joint( "MiddleSpine").rototranslation[0]
-
-T = MMiddleSpine - MLowerSpine
-print( str(T) )
