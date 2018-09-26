@@ -1,12 +1,11 @@
 from bvh import *
 from bvh_extend import *
-from bvh_functions import *
 import datetime
 import os.path
 
 #apertura del file con path relativo
 #f=open(os.path.relpath('carrozzina.bvh', start=os.curdir))
-f=open(os.path.relpath('2017-12-22_16-22-35.bvh', start=os.curdir))
+f=open(os.path.relpath('2017-11-09_15-23-34.bvh', start=os.curdir))
 data = BvhCalculator(f.read()) #lettura del file e salvataggio in data
 print( "Frame: " + str(data.nframes) + " - Joints: " + str( len(data.get_joints_names() )) )
 
@@ -63,3 +62,11 @@ if 0 == 1: # Test
     print( data.get_joint("MiddleSpine").get_position_relative_vector( data.nframes -1) )
     print( data.get_joint("Chest").get_position_relative_vector( data.nframes -1) )
     print( data.get_joint("LToe").get_position_relative_vector( data.nframes -1) )
+    
+print( "valori cercati nel main:")
+
+#print( str( data.get_joint( "RShoulder").get_position_vector_all_frames_xyz()[0] ))
+print( str( data.get_joint( "RShoulder").get_rototranslation_matrix(0) ))
+# Deve stampare [ x: 0.6318692, y: -0.1081519, z: 1.3738085 ]
+print( str( data.get_joint( "RShoulder").get_euler_vector_all_frames_xyz() ) )
+raise SystemError

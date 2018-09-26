@@ -1,6 +1,6 @@
-from bvh import Bvh, BvhNode
 import numpy as np
 import math
+from transforms3d.euler import mat2euler
 
 def print_status(actual, total):  # actual : total = % : 100
     print("############################## " + str(int(round(actual * 100 / total))) + "% ##########")
@@ -11,7 +11,10 @@ def time_print(start, end, motiv = ""):
     
 def deg2rad(x):
     return x/180*math.pi
-    
+
+def matrix_euler( R, axes='rxyz' ):
+    return mat2euler(R, axes)
+
 def euler_matrix(ai, aj, ak, axes='sxyz'):
     """Return homogeneous rotation matrix from Euler angles and axis sequence.
 

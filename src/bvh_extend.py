@@ -1,7 +1,7 @@
 import bvh
 from bvh_functions import *
 import datetime
-#from transforms3d.euler import euler2mat 
+#from transforms3d.euler import mat2euler 
 #from transforms3d.affines import compose 
 
 #questa lib verrà usata per andare a prendere i pezzi specifici della matrice Rototrasl

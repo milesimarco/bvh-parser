@@ -1,7 +1,6 @@
 import re
 import numpy as np
-
-#importer file .Bvh
+from bvh_functions import *
 
 class BvhNode:
 
@@ -31,6 +30,31 @@ class BvhNode:
     def get_position_vector(self, frame_index):
         A = np.array( self.rototranslation[frame_index] )
         return A[0:3,3]
+    
+    def get_position_vector_all_frames_xyz(self):
+        frame_index = 0
+        vx = []
+        vy = []
+        vz = []
+        while frame_index < len( self.rototranslation ):
+            vx.append( self.rototranslation[frame_index][0,3] )
+            vy.append( self.rototranslation[frame_index][1,3] )
+            vz.append( self.rototranslation[frame_index][2,3] )
+            frame_index += 1
+        return [ vx, vy, vz ]
+    
+    def get_euler_vector_all_frames_xyz(self):
+        frame_index = 0
+        vx = []
+        vy = []
+        vz = []
+        while frame_index < len( self.rototranslation ):
+            v = matrix_euler( self.rototranslation[frame_index] )
+            vx.append(  np.rad2deg( v[0] ) )
+            vy.append(  np.rad2deg( v[1] ) )
+            vz.append(  np.rad2deg( v[2] ) )
+            frame_index += 1
+        return [ vx, vy, vz ]
     
     def get_position_relative_vector(self, frame_index):
         A = np.array( self.rototranslation_relative[frame_index] )
