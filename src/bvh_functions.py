@@ -8,14 +8,15 @@ def print_status(actual, total):  # actual : total = % : 100
 def time_print(start, end, motiv = ""):
     elapsed = end - start
     print("Tempo impiegato: " + str(elapsed.seconds) + "." + str( elapsed.microseconds)[:2] + "s - " + motiv)
-    
+
+#funzione conversione angoli da gradi a radianti    
 def deg2rad(x):
     return x/180*math.pi
-
+#funzione che passando angoli di eulero restituisce la matrice di rototraslazione usando la libreria transform3d
 def matrix_euler( R, axes='rxyz' ):
     return mat2euler(R, axes)
-
-def euler_matrix(ai, aj, ak, axes='sxyz'):
+#funzione che passando angoli di eulero restituisce la matrice di rototraslazione
+def euler_matrix(ai, aj, ak, axes='rxyz'):
     """Return homogeneous rotation matrix from Euler angles and axis sequence.
 
     ai, aj, ak : Euler's roll, pitch and yaw angles

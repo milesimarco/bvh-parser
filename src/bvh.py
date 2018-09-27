@@ -2,6 +2,7 @@ import re
 import numpy as np
 from bvh_functions import *
 
+#BVH Importer
 class BvhNode:
 
     def __init__(self, value=[], parent=None):
@@ -13,24 +14,29 @@ class BvhNode:
         self.rototranslation_relative = []
         if self.parent:
             self.parent.add_child(self)
-
+            
+    #restituisce matrice rototrslazione
     def get_rototranslation_matrix(self, frame_index):
         return self.rototranslation[frame_index]
     
+    #restituisce la matrice di rototraslazione relativa al nodo padre
     def get_rototranslation_relative_matrix(self, frame_index):
         return self.rototranslation_relative[frame_index]
-        
+     
+    #restituisce la matrice TPOS inserendo in una amtrice identià il vettore TPOS   
     def get_tpos_matrix(self):
         return self.TPos
     
+    #restituisce il vettore della Tpos, calcolato dagli offset
     def get_tpos_vector(self):
         A = np.array( self.tpos )
         return A[0:3,3]
     
+    #prende x,y,z position dalla matrice di rototraslazione
     def get_position_vector(self, frame_index):
         A = np.array( self.rototranslation[frame_index] )
         return A[0:3,3]
-    
+    #prende x,y,z position dalla matrice di rototraslazione e li salva in 3 vettori, i vettori contengono le posizioni per ogni frame
     def get_position_vector_all_frames_xyz(self):
         frame_index = 0
         vx = []
@@ -43,6 +49,7 @@ class BvhNode:
             frame_index += 1
         return [ vx, vy, vz ]
     
+    #prende la matrice di rototraslazione e calcola gli angoli di eulero per tutti i frame
     def get_euler_vector_all_frames_xyz(self):
         frame_index = 0
         vx = []
@@ -56,6 +63,7 @@ class BvhNode:
             frame_index += 1
         return [ vx, vy, vz ]
     
+    #calcola il vettore di posizioni relative al giunto padre
     def get_position_relative_vector(self, frame_index):
         A = np.array( self.rototranslation_relative[frame_index] )
         return A[0:3,3]
