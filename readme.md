@@ -5,6 +5,6 @@ Project to parse BVH files based on improvements on https://github.com/20tab/bvh
 - complementary functions to efficiently manage relative and absolute positions
 - euler angles
 
-# Credits
+## Credits
 - Developer by Marco Milesi and Gianbattista Madaschi for reasearch purposes in University of Bergamo (Italy)
 - Based on https://github.com/20tab/bvh-python
