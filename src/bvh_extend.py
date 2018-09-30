@@ -27,6 +27,7 @@ class BvhCalculator(bvh.Bvh):
             Xr = self.frame_joint_channel( frame_index, joint_name, "Xrotation")
             Yr = self.frame_joint_channel( frame_index, joint_name, "Yrotation")
             Zr = self.frame_joint_channel( frame_index, joint_name, "Zrotation")
+            joint.euler_REL.append( [ Xr, Yr, Zr] )
             rotation = euler_matrix( deg2rad(Xr), deg2rad(Yr), deg2rad(Zr), "rxyz" )
             
             trasl = identity
@@ -57,7 +58,7 @@ class BvhCalculator(bvh.Bvh):
                 Xr = self.frame_joint_channel( frame_index, joint_name, "Xrotation")
                 Yr = self.frame_joint_channel( frame_index, joint_name, "Yrotation")
                 Zr = self.frame_joint_channel( frame_index, joint_name, "Zrotation")
-                
+                joint.euler_REL.append( [ Xr, Yr, Zr] )
                 rotation = euler_matrix( deg2rad(Xr), deg2rad(Yr), deg2rad(Zr), "rxyz" )
                 
                 M = np.dot( self.joint_parent( joint_name ).rototranslation[frame_index], np.dot(trasl, rotation ) )

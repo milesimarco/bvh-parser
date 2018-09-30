@@ -12,6 +12,7 @@ class BvhNode:
         self.tpos = []
         self.rototranslation = []
         self.rototranslation_relative = []
+        self.euler_REL = []
         if self.parent:
             self.parent.add_child(self)
             
@@ -60,6 +61,18 @@ class BvhNode:
             vx.append(  np.rad2deg( v[0] ) )
             vy.append(  np.rad2deg( v[1] ) )
             vz.append(  np.rad2deg( v[2] ) )
+            frame_index += 1
+        return [ vx, vy, vz ]
+    
+    def get_euler_REL_xyz(self):
+        frame_index = 0
+        vx = []
+        vy = []
+        vz = []
+        while frame_index < len( self.euler_REL ):
+            vx.append(  self.euler_REL[frame_index][0] )
+            vy.append(  self.euler_REL[frame_index][1] )
+            vz.append(  self.euler_REL[frame_index][2] )
             frame_index += 1
         return [ vx, vy, vz ]
     

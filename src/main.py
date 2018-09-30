@@ -48,7 +48,7 @@ data.calculate_rototranslations_relative() # Calcola tutte le rototraslazioni
 end = datetime.datetime.now()
 time_print(start, end, "Rototraslazioni Relative, tutte")
 
-if 0 == 1: # Test
+if 1 == 1: # Test
     print( data.get_joint("Hip").get_rototranslation_relative_matrix(1) )
     print( data.get_joint("Hip").get_position_relative_vector(1) )
     print( data.get_joint("Hip").get_position_relative_vector(2) )
@@ -57,7 +57,7 @@ if 0 == 1: # Test
     print( data.get_joint("MiddleSpine").get_position_relative_vector(4) )
     
     print( "last frame tests")
-    print( data.get_joint("Hip").get_position_relative_matrix( data.nframes -1 ) )
+    print( data.get_joint("Hip").get_position_relative_vector( data.nframes -1 ) )
     print( data.get_joint("LowerSpine").get_position_relative_vector( data.nframes -1) )
     print( data.get_joint("MiddleSpine").get_position_relative_vector( data.nframes -1) )
     print( data.get_joint("Chest").get_position_relative_vector( data.nframes -1) )
@@ -65,8 +65,7 @@ if 0 == 1: # Test
     
 print( "valori cercati nel main:")
 
-#print( str( data.get_joint( "RShoulder").get_position_vector_all_frames_xyz()[0] ))
-print( str( data.get_joint( "RShoulder").get_rototranslation_matrix(0) ))
-# Deve stampare [ x: 0.6318692, y: -0.1081519, z: 1.3738085 ]
-print( str( data.get_joint( "RShoulder").get_euler_vector_all_frames_xyz() ) )
+print(  data.get_joint( "RHand").rototranslation[0] )
+print(  data.get_joint( "RHand").get_euler_vector_all_frames_xyz()[2] )
+
 raise SystemError
