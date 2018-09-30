@@ -1,6 +1,7 @@
 # BVH Parser for Python
-Project to parse BVH files based on improvements on https://github.com/20tab/bvh-python with:
-- new tests
+Project to parse BVH files with:
+- python importer
+- structure management (joints and channel classes)
 - complete kinematic chains, including rototranslations
 - complementary functions to efficiently manage relative and absolute positioning
 - euler angles
