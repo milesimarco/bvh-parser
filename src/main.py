@@ -4,8 +4,7 @@ import datetime
 import os.path
 
 #apertura del file con path relativo
-#f=open(os.path.relpath('carrozzina.bvh', start=os.curdir))
-f=open(os.path.relpath('2017-11-09_15-23-34.bvh', start=os.curdir))
+f=open(os.path.relpath('tests/test_freebvh.bvh', start=os.curdir))
 data = BvhCalculator(f.read()) #lettura del file e salvataggio in data
 print( "Frame: " + str(data.nframes) + " - Joints: " + str( len(data.get_joints_names() )) )
 
