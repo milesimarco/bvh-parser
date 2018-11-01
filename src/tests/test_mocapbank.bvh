@@ -1,5 +1,5 @@
 HIERARCHY
-ROOT Hips
+ROOT Hip
 {
   OFFSET 0.0000 0.0000 0.0000
   CHANNELS 6 Xposition Yposition Zposition Zrotation Xrotation Yrotation

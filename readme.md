@@ -6,6 +6,10 @@ Project to parse BVH files with:
 - complementary functions to efficiently manage relative and absolute positioning
 - euler angles
 
+## Important
+- Some bvh files use different namings for joints. In particular, the root joint must be "Hip" to get this module working. We'll make it more general in the future.
+- Feel free to contribute and push :)
+
 ## Developers
 - Marco Milesi for coding (optimizations, integrations and scalability) 
 - Gianbattista Madaschi for mathematics

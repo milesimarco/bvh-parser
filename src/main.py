@@ -4,7 +4,7 @@ import datetime
 import os.path
 
 #apertura del file con path relativo
-f=open(os.path.relpath('tests/test_freebvh.bvh', start=os.curdir))
+f=open(os.path.relpath('tests/test_mocapbank.bvh', start=os.curdir))
 data = BvhCalculator(f.read()) #lettura del file e salvataggio in data
 print( "Frame: " + str(data.nframes) + " - Joints: " + str( len(data.get_joints_names() )) )
 
@@ -47,7 +47,7 @@ data.calculate_rototranslations_relative() # Calcola tutte le rototraslazioni
 end = datetime.datetime.now()
 time_print(start, end, "Rototraslazioni Relative, tutte")
 
-if 1 == 1: # Test
+if 0 == 1: # Test
     print( data.get_joint("Hip").get_rototranslation_relative_matrix(1) )
     print( data.get_joint("Hip").get_position_relative_vector(1) )
     print( data.get_joint("Hip").get_position_relative_vector(2) )
@@ -62,9 +62,10 @@ if 1 == 1: # Test
     print( data.get_joint("Chest").get_position_relative_vector( data.nframes -1) )
     print( data.get_joint("LToe").get_position_relative_vector( data.nframes -1) )
     
-print( "valori cercati nel main:")
+    print( "valori cercati nel main:")
+    
+    print(  data.get_joint( "RHand").rototranslation[0] )
+    print(  data.get_joint( "RHand").get_euler_vector_all_frames_xyz()[2] )
 
-print(  data.get_joint( "RHand").rototranslation[0] )
-print(  data.get_joint( "RHand").get_euler_vector_all_frames_xyz()[2] )
-
+print( "OK" )
 raise SystemError
