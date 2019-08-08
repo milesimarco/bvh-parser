@@ -11,7 +11,7 @@ Project to parse BVH files with:
 - Feel free to contribute and push :)
 
 ## Developers
-- Marco Milesi for coding (optimizations, integrations and scalability) 
+- Marco Milesi for coding (integrations, mathematics, optimizations and scalability) 
 - Gianbattista Madaschi for mathematics
 
 ## Credits
